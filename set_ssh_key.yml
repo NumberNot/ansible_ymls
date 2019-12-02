@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Set authorized key, removing all the authorized keys already set
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+        state: present
+        exclusive: True
+#and run playbook with -k
