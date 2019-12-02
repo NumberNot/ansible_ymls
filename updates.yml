@@ -1,0 +1,33 @@
+---
+- name: talk to all hosts just so we can learn about them
+hosts: all
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: os_{{ ansible_facts['distribution'] }}
+ - hosts: os_CentOS
+  tasks:
+    - name: Update Centos7-servers
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+      when:
+        ansible_distribution_version == "7.7"
+      tags: yum
+    - name: Update Centos8-servers
+      dnf:
+        name: '*'
+        state: latest
+        update_cache: yes
+      when:
+        ansible_distribution_version == "8.0"
+      tags: dnf
+  tasks:
+    - name: Update Debian-servers
+      apt:
+        upgrade: dist
+        update_cache: yes
+#  environment:
+#    http_proxy:  http://{{ proxy_address }}
+#    https_proxy: https://{{ proxy_address }}
