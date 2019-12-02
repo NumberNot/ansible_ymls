@@ -1,4 +1,4 @@
-# Ansible yml scripts https://img.shields.io/badge/-useful-blue
+# Ansible yml scripts [![Useful]https://img.shields.io/badge/-useful-blue]
 >Some useful ansible scripts
 
 - facts.yml - gather facts as OS and version
