@@ -1,0 +1,23 @@
+---
+- hosts: all
+  tasks:
+
+    - name: Add hostname to /etc/hosts
+      vars:
+        comment: '# added by ansible'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "127[.]0[.]0[.]1.*"
+        line: "127.0.0.1 localhost.localdomain localhost {{ ansible_hostname }} {{ comment }}"
+        state: present
+        backup: yes
+    - name: Add IP address of all hosts to all hosts
+      vars:
+        comment: '# added by ansible'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}} {{ comment }}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: "{{ groups.all }}"
